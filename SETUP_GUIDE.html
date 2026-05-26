@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NovaDeck — Setup Guide</title>
+<style>
+  :root{--bg:#08080f;--bg2:#0f0f1a;--card:#13131f;--border:#252538;--accent:#7c3aed;--accent3:#c084fc;--text:#f0f0ff;--muted:#8888aa;--green:#10b981;--gold:#f59e0b}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6}
+  .top{background:linear-gradient(135deg,var(--accent),#9d5cff);padding:56px 60px;text-align:center}
+  .top h1{font-size:2.4rem;font-weight:900;letter-spacing:-1px;margin-bottom:10px}
+  .top p{font-size:1rem;opacity:.85;max-width:540px;margin:0 auto}
+  .wrap{max-width:900px;margin:0 auto;padding:60px 40px}
+  .progress-bar{display:flex;gap:0;margin-bottom:56px;background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+  .prog-step{flex:1;padding:16px;text-align:center;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;border-right:1px solid var(--border);position:relative}
+  .prog-step:last-child{border-right:none}
+  .prog-step.done{background:rgba(16,185,129,.1);color:var(--green)}
+  .prog-step.active{background:rgba(124,58,237,.15);color:var(--accent3)}
+  .prog-step span{display:block;font-size:1.2rem;margin-bottom:4px}
+  .section{margin-bottom:56px}
+  .sec-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25);color:var(--accent3);padding:4px 14px;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .sec-title{font-size:1.8rem;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+  .sec-sub{color:var(--muted);font-size:.93rem;margin-bottom:28px}
+  .step-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:16px;display:flex;gap:20px;align-items:flex-start}
+  .step-num{width:44px;height:44px;border-radius:12px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:var(--accent3);flex-shrink:0}
+  .step-body h3{font-size:1rem;font-weight:700;margin-bottom:6px}
+  .step-body p{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:10px}
+  .step-body a{color:var(--accent3);text-decoration:none;font-weight:600}
+  .step-body a:hover{text-decoration:underline}
+  .code-block{background:#0a0a14;border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-family:'Courier New',monospace;font-size:.83rem;color:#a5f3fc;margin:10px 0;overflow-x:auto;position:relative}
+  .code-block .copy-btn{position:absolute;top:8px;right:8px;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.72rem;font-family:inherit}
+  .code-block .copy-btn:hover{color:var(--text)}
+  .tip{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:14px 18px;font-size:.85rem;color:#fcd34d;margin:12px 0;display:flex;gap:10px;align-items:flex-start}
+  .tip span{font-size:1rem;flex-shrink:0}
+  .warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:12px;padding:14px 18px;font-size:.85rem;color:#fca5a5;margin:12px 0;display:flex;gap:10px;align-items:flex-start}
+  .checklist{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+  .check-item{display:flex;align-items:flex-start;gap:12px;font-size:.88rem;color:var(--muted)}
+  .check-item input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;margin-top:2px;cursor:pointer}
+  .check-item label{cursor:pointer;line-height:1.5}
+  .check-item input:checked+label{color:var(--green);text-decoration:line-through;opacity:.7}
+  .link-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:11px 22px;border-radius:10px;text-decoration:none;font-size:.88rem;font-weight:700;transition:all .2s;margin-top:8px}
+  .link-btn:hover{background:#9d5cff;transform:translateY(-1px)}
+  .link-btn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+  .link-btn.ghost:hover{border-color:var(--accent);color:var(--accent3)}
+  .earnings-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+  .earnings-table th{padding:12px 20px;background:#0f0f1a;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;border-bottom:1px solid var(--border)}
+  .earnings-table td{padding:14px 20px;font-size:.88rem;border-bottom:1px solid var(--border)}
+  .earnings-table tr:last-child td{border-bottom:none;font-weight:700;color:var(--accent3)}
+  .file-tree{background:#0a0a14;border:1px solid var(--border);border-radius:12px;padding:20px;font-family:'Courier New',monospace;font-size:.83rem;line-height:1.8;color:#a5f3fc}
+  .file-tree .folder{color:#c084fc}
+  .file-tree .file{color:#a5f3fc}
+  .file-tree .comment{color:#555}
+  .green{color:var(--green)}
+  .gold{color:var(--gold)}
+  hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>🚀 NovaDeck Setup Guide</h1>
+  <p>Your complete step-by-step guide to going live with Stripe payments and hosting your store on Netlify for free.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="progress-bar">
+    <div class="prog-step active"><span>💳</span>Stripe Setup</div>
+    <div class="prog-step"><span>📦</span>Add Products</div>
+    <div class="prog-step"><span>🔗</span>Link Store</div>
+    <div class="prog-step"><span>🌐</span>Go Live</div>
+    <div class="prog-step"><span>📢</span>Launch</div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <div class="sec-badge">Overview</div>
+    <div class="sec-title">What We're Building</div>
+    <div class="sec-sub">Your NovaDeck store is a static HTML file hosted free on Netlify. Stripe handles all payments and automatically emails customers their download links. Zero monthly fees. Zero backend.</div>
+
+    <div class="tip"><span>💡</span><div>The total cost to run NovaDeck is <strong>$0/month</strong> (Netlify free tier) + <strong>2.9% + 30¢ per transaction</strong> (Stripe). On a $37 sale, you keep ~$35.50. No other fees.</div></div>
+
+    <table class="earnings-table" style="margin-top:16px">
+      <thead><tr><th>Monthly Sales</th><th>Avg. Order Value</th><th>Gross Revenue</th><th>Stripe Fees (~3%)</th><th>You Keep</th></tr></thead>
+      <tbody>
+        <tr><td>50 sales</td><td>$37</td><td>$1,850</td><td>~$56</td><td class="green">$1,794</td></tr>
+        <tr><td>150 sales</td><td>$37</td><td>$5,550</td><td>~$167</td><td class="green">$5,383</td></tr>
+        <tr><td>300 sales</td><td>$37</td><td>$11,100</td><td>~$333</td><td class="green">$10,767</td></tr>
+        <tr><td colspan="4" style="text-align:right">🎯 $10K/month target →</td><td class="green">~270 sales/mo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr/>
+
+  <!-- PART 1: STRIPE -->
+  <div class="section">
+    <div class="sec-badge">Part 1 · Payments</div>
+    <div class="sec-title">Set Up Stripe</div>
+    <div class="sec-sub">Stripe is the most trusted payment processor in the world. Setting it up takes about 15 minutes.</div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Create Your Free Stripe Account</h3>
+        <p>Go to <a href="https://stripe.com" target="_blank">stripe.com</a> and click "Start now". Sign up with your email. You'll need to verify your identity before accepting payments (takes 2–5 minutes — have your ID and bank details ready).</p>
+        <a href="https://stripe.com/register" target="_blank" class="link-btn">Open Stripe Sign Up →</a>
+        <div class="tip"><span>💡</span>Stripe pays out to your bank account on a 2-day rolling basis once you're verified.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Create a Product for Each Template</h3>
+        <p>In your Stripe Dashboard, go to <strong>Products → Add product</strong>. Create one product per template. For each product:</p>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="c1"/><label for="c1">Enter the product name (e.g. "Social Media Mega Bundle")</label></div>
+          <div class="check-item"><input type="checkbox" id="c2"/><label for="c2">Set the price (e.g. $47.00 USD, one-time)</label></div>
+          <div class="check-item"><input type="checkbox" id="c3"/><label for="c3">Add a description and product image (screenshot your template)</label></div>
+          <div class="check-item"><input type="checkbox" id="c4"/><label for="c4">Under "After payment", add a custom success message with download instructions</label></div>
+        </div>
+        <div class="tip"><span>💡</span>For digital file delivery: after creating each product, go to <strong>Payment Links → Create link</strong>. Under the "After payment" tab, paste the direct URL to your template file on Netlify (e.g. https://novadeck.netlify.app/products/resume-pack.html). Stripe will show customers this URL after they pay.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Create a Payment Link (Buy Button) for Each Product</h3>
+        <p>In Stripe, go to <strong>Payment Links → Create payment link</strong>. Select your product, set the price, then click <strong>Create link</strong>. You'll get a URL like <code style="color:#a5f3fc;background:#0a0a14;padding:2px 8px;border-radius:4px">https://buy.stripe.com/XXXXXXXX</code></p>
+        <p style="margin-top:10px">Then go to <strong>Payment Links → ··· → Get embed code</strong> and copy the Buy Button code. It'll look like this:</p>
+        <div class="code-block">
+          &lt;stripe-buy-button<br/>
+          &nbsp;&nbsp;buy-button-id="buy_btn_XXXXXXXXX"<br/>
+          &nbsp;&nbsp;publishable-key="pk_live_XXXXXXXXXXXX"<br/>
+          &gt;&lt;/stripe-buy-button&gt;
+          <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling?.textContent||'')">Copy</button>
+        </div>
+        <div class="warn"><span>⚠️</span>Copy both the <strong>buy-button-id</strong> AND the <strong>publishable-key</strong>. You need both to make it work.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Add Your Stripe Links to the Store</h3>
+        <p>Open <code style="color:#a5f3fc;background:#0a0a14;padding:2px 8px;border-radius:4px">novadeck-store.html</code> in any text editor (Notepad, VS Code, etc.). Find this section near the bottom of the file:</p>
+        <div class="code-block">
+          stripeLink:"https://buy.stripe.com/REPLACE_WITH_YOUR_LINK_1"
+        </div>
+        <p>Replace each <code style="color:#a5f3fc">REPLACE_WITH_YOUR_LINK_X</code> with the actual Payment Link URL from Stripe for that product. Do this for all 8 products.</p>
+        <div class="tip"><span>💡</span>The Payment Link URL (e.g. https://buy.stripe.com/abc123) is simpler than the full embed code and works perfectly for the current store setup. When clicked, it opens Stripe's hosted checkout page.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- PART 2: FILES -->
+  <div class="section">
+    <div class="sec-badge">Part 2 · Your Files</div>
+    <div class="sec-title">Organize Your Product Files</div>
+    <div class="sec-sub">Make sure your files are organized before uploading. Here's the structure your folder should look like:</div>
+
+    <div class="file-tree">
+      <span class="folder">📁 novadeck/</span><br/>
+      &nbsp;&nbsp;<span class="file">📄 novadeck-store.html</span> <span class="comment">← Main storefront</span><br/>
+      &nbsp;&nbsp;<span class="folder">📁 products/</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 resume-pack.html</span> <span class="comment">← Resume & Cover Letter Pack</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 invoice-template.html</span> <span class="comment">← Professional Invoice</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 business-proposal.html</span> <span class="comment">← Business Proposal</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 social-media-kit.html</span> <span class="comment">← Social Media Kit</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 notion-finance-os.html</span> <span class="comment">← Finance OS</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 pitch-deck.html</span> <span class="comment">← Pitch Deck</span>
+    </div>
+
+    <div class="tip" style="margin-top:16px"><span>💡</span>In your Stripe Payment Links, the "After payment" redirect URL should point to the specific product file. For example: <code style="color:#fcd34d">https://novadeck.netlify.app/products/resume-pack.html</code></div>
+  </div>
+
+  <hr/>
+
+  <!-- PART 3: NETLIFY -->
+  <div class="section">
+    <div class="sec-badge">Part 3 · Hosting</div>
+    <div class="sec-title">Go Live on Netlify (Free)</div>
+    <div class="sec-sub">Netlify is the easiest way to host your store for free. No credit card required, no technical skills needed. This takes 3 minutes.</div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Create a Free Netlify Account</h3>
+        <p>Go to <a href="https://netlify.com" target="_blank">netlify.com</a> and sign up with your GitHub or email. The free plan includes unlimited bandwidth, SSL certificate (the 🔒 padlock), and a free subdomain.</p>
+        <a href="https://app.netlify.com/signup" target="_blank" class="link-btn">Create Netlify Account →</a>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Deploy Your Site — Drag and Drop</h3>
+        <p>This is literally the easiest part. After logging in to Netlify:</p>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="n1"/><label for="n1">Go to <strong>Sites</strong> in the Netlify dashboard</label></div>
+          <div class="check-item"><input type="checkbox" id="n2"/><label for="n2">Scroll down until you see the "Deploy manually" drag & drop zone</label></div>
+          <div class="check-item"><input type="checkbox" id="n3"/><label for="n3">Open your <strong>novadeck</strong> folder on your computer</label></div>
+          <div class="check-item"><input type="checkbox" id="n4"/><label for="n4">Drag the entire <strong>novadeck</strong> folder and drop it onto the Netlify zone</label></div>
+          <div class="check-item"><input type="checkbox" id="n5"/><label for="n5">Wait ~10 seconds. Your site will be live at a URL like <code style="color:#a5f3fc">random-name-12345.netlify.app</code></label></div>
+        </div>
+        <div class="tip"><span>🎉</span>That's it! Your store is live on the internet. Copy the URL and share it anywhere.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Connect Your Custom Domain (Optional but Recommended)</h3>
+        <p>Once you have your domain (e.g. novadeck.co), connect it to Netlify:</p>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="d1"/><label for="d1">In Netlify: go to Site Settings → Domain Management → Add custom domain</label></div>
+          <div class="check-item"><input type="checkbox" id="d2"/><label for="d2">Enter your domain name (e.g. novadeck.co)</label></div>
+          <div class="check-item"><input type="checkbox" id="d3"/><label for="d3">Go to your domain registrar (Namecheap, GoDaddy, etc.) → DNS Settings</label></div>
+          <div class="check-item"><input type="checkbox" id="d4"/><label for="d4">Add the nameservers Netlify gives you (usually 4 nameservers like <code style="color:#a5f3fc">dns1.p01.nsone.net</code>)</label></div>
+          <div class="check-item"><input type="checkbox" id="d5"/><label for="d5">Wait 5–30 minutes. Netlify auto-provisions your free SSL certificate.</label></div>
+        </div>
+        <div class="tip"><span>💡</span>Best domains for this store: <strong>novadeck.co</strong>, <strong>novadeck.io</strong>, or <strong>getnovadeck.com</strong>. Check availability at <a href="https://namecheap.com" target="_blank">Namecheap.com</a> (~$12/year for .co)</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Update Future Changes (Re-deploy in Seconds)</h3>
+        <p>Whenever you update your store (add products, change prices, etc.):</p>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="u1"/><label for="u1">Edit your <code style="color:#a5f3fc">novadeck-store.html</code> file</label></div>
+          <div class="check-item"><input type="checkbox" id="u2"/><label for="u2">Go back to Netlify → your site → Deploys tab</label></div>
+          <div class="check-item"><input type="checkbox" id="u3"/><label for="u3">Drag your updated folder to the drag & drop zone again</label></div>
+          <div class="check-item"><input type="checkbox" id="u4"/><label for="u4">Site updates in ~10 seconds automatically</label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- PART 4: LAUNCH -->
+  <div class="section">
+    <div class="sec-badge">Part 4 · Launch</div>
+    <div class="sec-title">Your 30-Day Launch Checklist</div>
+    <div class="sec-sub">Do these things in order and you'll have your first sale within 30 days.</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px">
+        <div style="font-size:.75rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Week 1 — Foundation</div>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="l1"/><label for="l1">Create Stripe account & verify identity</label></div>
+          <div class="check-item"><input type="checkbox" id="l2"/><label for="l2">Create all 8 products in Stripe with prices</label></div>
+          <div class="check-item"><input type="checkbox" id="l3"/><label for="l3">Generate Payment Links for each product</label></div>
+          <div class="check-item"><input type="checkbox" id="l4"/><label for="l4">Update the store HTML with your Stripe links</label></div>
+          <div class="check-item"><input type="checkbox" id="l5"/><label for="l5">Deploy to Netlify</label></div>
+          <div class="check-item"><input type="checkbox" id="l6"/><label for="l6">Connect your domain</label></div>
+          <div class="check-item"><input type="checkbox" id="l7"/><label for="l7">Test checkout by buying a $1 product yourself</label></div>
+        </div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px">
+        <div style="font-size:.75rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Week 2–4 — Traffic</div>
+        <div class="checklist">
+          <div class="check-item"><input type="checkbox" id="m1"/><label for="m1">Create Etsy shop & list all 8 products</label></div>
+          <div class="check-item"><input type="checkbox" id="m2"/><label for="m2">Create Pinterest business account — pin each product</label></div>
+          <div class="check-item"><input type="checkbox" id="m3"/><label for="m3">Post 3x/week on TikTok showing templates in use</label></div>
+          <div class="check-item"><input type="checkbox" id="m4"/><label for="m4">Share in 5 Facebook groups for entrepreneurs</label></div>
+          <div class="check-item"><input type="checkbox" id="m5"/><label for="m5">DM 20 micro-influencers to offer a free template in exchange for a post</label></div>
+          <div class="check-item"><input type="checkbox" id="m6"/><label for="m6">Add the store link to your Instagram/TikTok bio</label></div>
+          <div class="check-item"><input type="checkbox" id="m7"/><label for="m7">Celebrate your first sale! 🎉</label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- COSTS SUMMARY -->
+  <div class="section">
+    <div class="sec-badge">Summary</div>
+    <div class="sec-title">Total Cost to Run NovaDeck</div>
+    <table class="earnings-table">
+      <thead><tr><th>Item</th><th>Cost</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Netlify Hosting</td><td class="green">$0/month</td><td>Free tier — unlimited for static sites</td></tr>
+        <tr><td>Stripe Processing</td><td class="gold">2.9% + 30¢/sale</td><td>Only charged when you make money</td></tr>
+        <tr><td>Domain Name</td><td class="gold">~$12/year</td><td>Optional — Netlify gives you a free subdomain</td></tr>
+        <tr><td>Canva Pro (to make more products)</td><td class="gold">$13/month</td><td>Optional — free plan works too</td></tr>
+        <tr><td>Total Fixed Monthly Cost</td><td class="green">$0 – $13/mo</td><td>Basically free to run</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(157,92,255,.08));border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:40px;text-align:center;margin-top:48px">
+    <div style="font-size:2rem;margin-bottom:12px">🚀</div>
+    <div style="font-size:1.6rem;font-weight:800;letter-spacing:-.5px;margin-bottom:10px">You're Ready to Launch</div>
+    <div style="color:var(--muted);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">Follow this guide from top to bottom and you'll have a live, payment-ready store before today is over. The hardest part is starting — and you've already done that.</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="novadeck-store.html" class="link-btn">Open Your Store →</a>
+      <a href="https://stripe.com/register" target="_blank" class="link-btn ghost">Set Up Stripe →</a>
+      <a href="https://app.netlify.com/signup" target="_blank" class="link-btn ghost">Go to Netlify →</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Track progress
+const checkboxes=document.querySelectorAll('input[type="checkbox"]');
+checkboxes.forEach(cb=>{
+  cb.addEventListener('change',()=>{
+    const total=checkboxes.length;
+    const done=[...checkboxes].filter(c=>c.checked).length;
+    const pct=Math.round((done/total)*100);
+    document.title=`NovaDeck Setup Guide (${pct}% done)`;
+  });
+});
+</script>
+</body>
+</html>

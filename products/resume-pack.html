@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NovaDeck — Resume Pack</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#f4f4f6;color:#1a1a2e;padding:40px 20px}
+  h1{text-align:center;margin-bottom:8px;font-size:1.4rem;color:#7c3aed}
+  .subtitle{text-align:center;color:#888;margin-bottom:40px;font-size:.9rem}
+  .resume-wrapper{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+
+  /* RESUME 1 — Modern Purple */
+  .resume{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);page-break-after:always}
+  .res-header{background:linear-gradient(135deg,#7c3aed,#9d5cff);padding:40px 48px;color:#fff;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+  .res-name{font-size:2.2rem;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+  .res-role{font-size:1.05rem;opacity:.85;margin-bottom:16px}
+  .res-contact{display:flex;gap:20px;flex-wrap:wrap;font-size:.82rem;opacity:.85}
+  .res-contact span{display:flex;align-items:center;gap:5px}
+  .res-photo{width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.2);border:3px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:2rem}
+  .res-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .res-left{padding:36px 32px;border-right:1px solid #f0f0f5}
+  .res-right{padding:36px 32px}
+  .res-section{margin-bottom:28px}
+  .res-section h3{font-size:.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#7c3aed;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #f0f0f8}
+  .exp-item{margin-bottom:20px}
+  .exp-title{font-weight:700;font-size:.95rem;margin-bottom:2px}
+  .exp-company{color:#7c3aed;font-size:.85rem;font-weight:600;margin-bottom:4px}
+  .exp-date{color:#aaa;font-size:.78rem;margin-bottom:8px}
+  .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .exp-bullets li{font-size:.82rem;color:#555;padding-left:14px;position:relative;line-height:1.5}
+  .exp-bullets li::before{content:'▸';position:absolute;left:0;color:#7c3aed;font-size:.7rem;top:1px}
+  .skill-pills{display:flex;flex-wrap:wrap;gap:8px}
+  .skill-pill{background:#f3f0ff;color:#7c3aed;padding:5px 12px;border-radius:100px;font-size:.78rem;font-weight:600;border:1px solid #e8e0ff}
+  .edu-item{margin-bottom:16px}
+  .edu-degree{font-weight:700;font-size:.92rem}
+  .edu-school{color:#7c3aed;font-size:.85rem;margin-bottom:2px}
+  .edu-year{color:#aaa;font-size:.78rem}
+  .cert-item{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:.85rem;color:#555}
+  .cert-item::before{content:'✓';color:#10b981;font-weight:700}
+  .lang-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.85rem}
+  .lang-bar{height:6px;background:#f0f0f5;border-radius:10px;width:100px;overflow:hidden;margin-left:8px}
+  .lang-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#c084fc);border-radius:10px}
+  .label{color:#888;font-size:.78rem;margin-bottom:6px}
+
+  /* RESUME 2 — Clean Dark */
+  .res2-header{background:#1a1a2e;padding:40px 48px;color:#fff;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+  .res2-avatar{width:80px;height:80px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#c084fc);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+  .res2-name{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+  .res2-role{font-size:.95rem;color:#c084fc;font-weight:600;margin-bottom:12px}
+  .res2-contact{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;color:#8888aa}
+  .res2-body{padding:36px 48px;display:grid;grid-template-columns:1fr 280px;gap:40px}
+  .res2-section h3{font-size:.7rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#1a1a2e;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #1a1a2e}
+  .timeline{position:relative;padding-left:20px}
+  .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:#f0f0f5}
+  .timeline-item{position:relative;margin-bottom:22px}
+  .timeline-dot{position:absolute;left:-17px;top:4px;width:10px;height:10px;border-radius:50%;background:#7c3aed;border:2px solid #fff;box-shadow:0 0 0 2px #7c3aed}
+  .res2-skill-bar{margin-bottom:12px}
+  .res2-skill-label{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px}
+  .res2-bar{height:7px;background:#f0f0f5;border-radius:10px;overflow:hidden}
+  .res2-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#c084fc);border-radius:10px}
+
+  /* COVER LETTER */
+  .cover-letter{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+  .cl-header{background:linear-gradient(135deg,#1a1a2e,#7c3aed);padding:36px 48px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+  .cl-logo{font-size:1.3rem;font-weight:800;letter-spacing:-0.5px}
+  .cl-contact{font-size:.82rem;opacity:.8;text-align:right;line-height:1.8}
+  .cl-body{padding:48px}
+  .cl-date{color:#aaa;font-size:.85rem;margin-bottom:24px}
+  .cl-recipient{margin-bottom:28px;font-size:.92rem}
+  .cl-recipient strong{display:block;font-weight:700}
+  .cl-recipient span{color:#888;font-size:.85rem}
+  .cl-subject{font-weight:700;margin-bottom:24px;font-size:1.05rem;color:#7c3aed}
+  .cl-para{color:#555;font-size:.9rem;line-height:1.8;margin-bottom:18px}
+  .cl-sig{margin-top:32px;font-size:.9rem;color:#555}
+  .cl-sig .name{font-weight:800;font-size:1rem;color:#1a1a2e;margin-top:8px}
+
+  .howto{background:#f3f0ff;border:2px dashed #c084fc;border-radius:12px;padding:20px;text-align:center;color:#7c3aed;font-size:.85rem;margin-bottom:40px;font-weight:600}
+  @media print{body{padding:0;background:#fff}.resume{box-shadow:none;border-radius:0}}
+</style>
+</head>
+<body>
+
+<h1>NovaDeck — Resume & Cover Letter Pack</h1>
+<p class="subtitle">3 templates included · Open in browser · Print or Save as PDF · Edit text directly</p>
+
+<div class="howto">
+  ✏️ HOW TO USE: Click any text to edit it. When done, press Ctrl+P (or Cmd+P on Mac) and choose "Save as PDF" to export your finished resume.
+</div>
+
+<div class="resume-wrapper">
+
+<!-- RESUME 1: MODERN PURPLE -->
+<div class="resume">
+  <div class="res-header">
+    <div>
+      <div class="res-name" contenteditable="true">Alex Johnson</div>
+      <div class="res-role" contenteditable="true">Senior Product Designer</div>
+      <div class="res-contact">
+        <span>✉ <span contenteditable="true">alex@email.com</span></span>
+        <span>📍 <span contenteditable="true">New York, NY</span></span>
+        <span>🔗 <span contenteditable="true">linkedin.com/in/alex</span></span>
+        <span>📱 <span contenteditable="true">(555) 123-4567</span></span>
+      </div>
+    </div>
+    <div class="res-photo">👤</div>
+  </div>
+  <div class="res-body">
+    <div class="res-left">
+      <div class="res-section">
+        <h3>Experience</h3>
+        <div class="exp-item">
+          <div class="exp-title" contenteditable="true">Senior Product Designer</div>
+          <div class="exp-company" contenteditable="true">Figma Inc.</div>
+          <div class="exp-date" contenteditable="true">Jan 2023 – Present</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true">Led redesign of core editor resulting in 23% increase in daily active users</li>
+            <li contenteditable="true">Managed design system of 400+ components used across 6 product teams</li>
+            <li contenteditable="true">Collaborated with PMs and engineers on 12 shipped features in 2024</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-title" contenteditable="true">UX Designer</div>
+          <div class="exp-company" contenteditable="true">Notion Labs</div>
+          <div class="exp-date" contenteditable="true">Mar 2021 – Dec 2022</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true">Designed mobile onboarding flow that improved D7 retention by 18%</li>
+            <li contenteditable="true">Conducted 40+ user interviews and synthesized insights into product roadmap</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-title" contenteditable="true">Junior UX Designer</div>
+          <div class="exp-company" contenteditable="true">Agency Creative Co.</div>
+          <div class="exp-date" contenteditable="true">Jun 2019 – Feb 2021</div>
+          <ul class="exp-bullets">
+            <li contenteditable="true">Designed websites and apps for 15+ clients across fintech and e-commerce</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="res-right">
+      <div class="res-section">
+        <h3>Education</h3>
+        <div class="edu-item">
+          <div class="edu-degree" contenteditable="true">B.S. Interaction Design</div>
+          <div class="edu-school" contenteditable="true">Parsons School of Design</div>
+          <div class="edu-year" contenteditable="true">2015 – 2019 · GPA 3.8</div>
+        </div>
+      </div>
+      <div class="res-section">
+        <h3>Skills</h3>
+        <div class="skill-pills">
+          <span class="skill-pill" contenteditable="true">Figma</span>
+          <span class="skill-pill" contenteditable="true">Sketch</span>
+          <span class="skill-pill" contenteditable="true">Prototyping</span>
+          <span class="skill-pill" contenteditable="true">Design Systems</span>
+          <span class="skill-pill" contenteditable="true">User Research</span>
+          <span class="skill-pill" contenteditable="true">A/B Testing</span>
+          <span class="skill-pill" contenteditable="true">HTML/CSS</span>
+          <span class="skill-pill" contenteditable="true">Notion</span>
+        </div>
+      </div>
+      <div class="res-section">
+        <h3>Certifications</h3>
+        <div class="cert-item" contenteditable="true">Google UX Design Certificate</div>
+        <div class="cert-item" contenteditable="true">Nielsen Norman UX Research</div>
+        <div class="cert-item" contenteditable="true">AWS Cloud Practitioner</div>
+      </div>
+      <div class="res-section">
+        <h3>Languages</h3>
+        <div class="lang-item"><span contenteditable="true">English</span><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div></div>
+        <div class="lang-item"><span contenteditable="true">Spanish</span><div class="lang-bar"><div class="lang-fill" style="width:70%"></div></div></div>
+        <div class="lang-item"><span contenteditable="true">French</span><div class="lang-bar"><div class="lang-fill" style="width:40%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME 2: CLEAN DARK SIDEBAR -->
+<div class="resume">
+  <div class="res2-header">
+    <div class="res2-avatar">👤</div>
+    <div>
+      <div class="res2-name" contenteditable="true">Jordan Williams</div>
+      <div class="res2-role" contenteditable="true">Full-Stack Developer</div>
+      <div class="res2-contact">
+        <span contenteditable="true">jordan@email.com</span>
+        <span contenteditable="true">github.com/jordan</span>
+        <span contenteditable="true">San Francisco, CA</span>
+        <span contenteditable="true">(555) 987-6543</span>
+      </div>
+    </div>
+  </div>
+  <div class="res2-body">
+    <div>
+      <div class="res-section">
+        <div class="res2-section"><h3>Experience</h3></div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="exp-title" contenteditable="true">Lead Engineer</div>
+            <div class="exp-company" contenteditable="true">Stripe · 2022–Present</div>
+            <ul class="exp-bullets" style="margin-top:8px">
+              <li contenteditable="true">Architected payments API handling $2B+ in annual transactions</li>
+              <li contenteditable="true">Led team of 8 engineers across 3 time zones</li>
+              <li contenteditable="true">Reduced API latency by 40% via Redis caching layer</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="exp-title" contenteditable="true">Backend Engineer</div>
+            <div class="exp-company" contenteditable="true">Vercel · 2020–2022</div>
+            <ul class="exp-bullets" style="margin-top:8px">
+              <li contenteditable="true">Built serverless functions platform serving 10M+ requests/day</li>
+              <li contenteditable="true">Shipped Next.js Image Optimization feature used by 500K+ sites</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="exp-title" contenteditable="true">Software Engineer</div>
+            <div class="exp-company" contenteditable="true">Shopify · 2018–2020</div>
+            <ul class="exp-bullets" style="margin-top:8px">
+              <li contenteditable="true">Developed checkout flow improvements increasing conversion by 12%</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="res-section">
+        <div class="res2-section"><h3>Education</h3></div>
+        <div class="edu-degree" contenteditable="true">B.S. Computer Science</div>
+        <div class="edu-school" contenteditable="true">UC Berkeley · 2014–2018</div>
+      </div>
+    </div>
+    <div>
+      <div class="res-section">
+        <div class="res2-section"><h3>Technical Skills</h3></div>
+        <div class="res2-skill-bar"><div class="res2-skill-label"><span contenteditable="true">React / Next.js</span><span>95%</span></div><div class="res2-bar"><div class="res2-fill" style="width:95%"></div></div></div>
+        <div class="res2-skill-bar"><div class="res2-skill-label"><span contenteditable="true">Node.js</span><span>90%</span></div><div class="res2-bar"><div class="res2-fill" style="width:90%"></div></div></div>
+        <div class="res2-skill-bar"><div class="res2-skill-label"><span contenteditable="true">Python</span><span>80%</span></div><div class="res2-bar"><div class="res2-fill" style="width:80%"></div></div></div>
+        <div class="res2-skill-bar"><div class="res2-skill-label"><span contenteditable="true">PostgreSQL</span><span>85%</span></div><div class="res2-bar"><div class="res2-fill" style="width:85%"></div></div></div>
+        <div class="res2-skill-bar"><div class="res2-skill-label"><span contenteditable="true">AWS / GCP</span><span>75%</span></div><div class="res2-bar"><div class="res2-fill" style="width:75%"></div></div></div>
+      </div>
+      <div class="res-section" style="margin-top:24px">
+        <div class="res2-section"><h3>Certifications</h3></div>
+        <div class="cert-item" contenteditable="true">AWS Solutions Architect</div>
+        <div class="cert-item" contenteditable="true">Google Cloud Professional</div>
+        <div class="cert-item" contenteditable="true">MongoDB Certified Developer</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COVER LETTER -->
+<div class="cover-letter">
+  <div class="cl-header">
+    <div class="cl-logo" contenteditable="true">Alex Johnson</div>
+    <div class="cl-contact">
+      <div contenteditable="true">alex@email.com</div>
+      <div contenteditable="true">(555) 123-4567</div>
+      <div contenteditable="true">linkedin.com/in/alex</div>
+    </div>
+  </div>
+  <div class="cl-body">
+    <div class="cl-date" contenteditable="true">May 25, 2026</div>
+    <div class="cl-recipient">
+      <strong contenteditable="true">Hiring Manager</strong>
+      <span contenteditable="true">Company Name</span>
+    </div>
+    <div class="cl-subject" contenteditable="true">Re: Senior Product Designer Position</div>
+    <p class="cl-para" contenteditable="true">I am writing to express my strong interest in the Senior Product Designer position at [Company Name]. With over 7 years of experience designing products used by millions of people, I am excited about the opportunity to bring my expertise in user-centered design, design systems, and cross-functional collaboration to your team.</p>
+    <p class="cl-para" contenteditable="true">In my current role at Figma, I led the redesign of our core editor — a project that resulted in a 23% increase in daily active users and became the most positively received product update of 2024. I managed a design system of 400+ components and partnered closely with product managers and engineers to ship 12 major features. My approach combines rigorous user research with a strong aesthetic sensibility and a deep respect for engineering constraints.</p>
+    <p class="cl-para" contenteditable="true">What excites me most about [Company Name] is [specific reason — their mission, product, culture]. I believe my background in [relevant skill] and my passion for [relevant area] would allow me to make an immediate and meaningful contribution to your team.</p>
+    <p class="cl-para" contenteditable="true">I would love the opportunity to discuss how my experience aligns with your needs. Thank you so much for your time and consideration — I look forward to connecting.</p>
+    <div class="cl-sig">
+      Warm regards,
+      <div class="name" contenteditable="true">Alex Johnson</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end resume-wrapper -->
+
+<script>
+// Make all contenteditable fields clearly editable on focus
+document.querySelectorAll('[contenteditable]').forEach(el=>{
+  el.addEventListener('focus',()=>el.style.outline='2px solid #7c3aed');
+  el.addEventListener('blur',()=>el.style.outline='none');
+});
+</script>
+</body>
+</html>

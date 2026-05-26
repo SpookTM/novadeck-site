@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>NovaDeck — Social Media Kit</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',sans-serif;background:#08080f;color:#f0f0ff;padding:40px 20px}
+  h1{text-align:center;margin-bottom:6px;font-size:1.4rem;color:#c084fc}
+  .subtitle{text-align:center;color:#8888aa;margin-bottom:28px;font-size:.9rem}
+  .howto{background:rgba(124,58,237,.15);border:2px dashed rgba(124,58,237,.4);border-radius:12px;padding:14px;text-align:center;color:#c084fc;font-size:.85rem;margin-bottom:32px;font-weight:600;max-width:1100px;margin-left:auto;margin-right:auto}
+  .kit-wrap{max-width:1100px;margin:0 auto}
+  .kit-section{margin-bottom:48px}
+  .kit-section-title{font-size:.75rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#c084fc;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid #252538}
+
+  /* COLOR PALETTE */
+  .palette{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .swatch{width:80px;height:80px;border-radius:14px;display:flex;align-items:flex-end;padding:8px;cursor:pointer;transition:transform .2s}
+  .swatch:hover{transform:scale(1.08)}
+  .swatch-hex{font-size:.65rem;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .color-edit{display:flex;gap:10px;margin-top:12px;align-items:center}
+  .color-edit label{font-size:.82rem;color:#8888aa}
+  .color-edit input[type="color"]{width:40px;height:32px;border:none;border-radius:6px;cursor:pointer;background:none}
+  .color-edit input[type="text"]{background:#13131f;border:1px solid #252538;color:#f0f0ff;padding:6px 12px;border-radius:8px;font-size:.82rem;width:120px}
+
+  /* POST TEMPLATES */
+  .posts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+  .post{border-radius:16px;overflow:hidden;position:relative;cursor:pointer;transition:transform .25s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+  .post:hover{transform:scale(1.02)}
+
+  /* Square post */
+  .post-square{width:100%;aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;padding:28px;position:relative}
+  .post-bg{position:absolute;inset:0}
+  .post-content{position:relative;z-index:1}
+  .post-tag{font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);padding:5px 12px;border-radius:100px;display:inline-block;margin-bottom:16px}
+  .post-headline{font-size:1.4rem;font-weight:900;letter-spacing:-.5px;line-height:1.2;margin-bottom:10px}
+  .post-sub{font-size:.82rem;opacity:.8;line-height:1.5}
+  .post-footer{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center}
+  .post-handle{font-size:.78rem;font-weight:700;opacity:.8}
+  .post-icon{font-size:1.6rem}
+
+  /* Story */
+  .post-story{width:100%;aspect-ratio:9/16;display:flex;flex-direction:column;justify-content:space-between;padding:32px 24px;max-width:200px;margin:0 auto}
+
+  /* Caption box */
+  .caption-box{background:#13131f;border:1px solid #252538;border-radius:14px;padding:20px;margin-top:16px}
+  .caption-label{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8888aa;margin-bottom:10px}
+  .caption-text{font-size:.88rem;color:#c0c0d8;line-height:1.7;cursor:text}
+  .caption-text[contenteditable="true"]:focus{outline:2px solid #7c3aed;border-radius:6px;padding:4px}
+  .hashtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .htag{background:rgba(124,58,237,.15);color:#c084fc;padding:3px 10px;border-radius:100px;font-size:.75rem;cursor:pointer}
+
+  /* Highlight covers */
+  .highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:14px}
+  .hl-cover{aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:transform .2s;position:relative;overflow:hidden}
+  .hl-cover:hover{transform:scale(1.06)}
+  .hl-bg{position:absolute;inset:0}
+  .hl-icon{font-size:1.6rem;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+  .hl-name{font-size:.65rem;font-weight:700;position:relative;z-index:1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+  /* Carousel */
+  .carousel-strip{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+  .carousel-card{flex-shrink:0;width:220px;aspect-ratio:1;border-radius:12px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;position:relative;overflow:hidden}
+  .carousel-bg{position:absolute;inset:0}
+  .carousel-num{position:absolute;top:14px;right:14px;font-size:.7rem;font-weight:800;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);padding:3px 8px;border-radius:100px;z-index:1}
+  .carousel-content{position:relative;z-index:1}
+  .carousel-title{font-weight:800;font-size:.95rem;margin-bottom:4px;line-height:1.2}
+  .carousel-body{font-size:.75rem;opacity:.8;line-height:1.4}
+
+  [contenteditable]:focus{outline:2px solid #7c3aed;outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>NovaDeck — Social Media Kit</h1>
+<p class="subtitle">10 post templates · Story templates · Highlight covers · Captions & hashtags</p>
+<div class="howto">🎨 Click any text to edit · Right-click a post → "Save image as" to download · Customize colors using the palette below</div>
+
+<div class="kit-wrap">
+
+  <!-- BRAND PALETTE -->
+  <div class="kit-section">
+    <div class="kit-section-title">Your Brand Colors — Click to Customize</div>
+    <div class="palette">
+      <div class="swatch" style="background:#7c3aed" id="c1"><span class="swatch-hex">#7c3aed</span></div>
+      <div class="swatch" style="background:#9d5cff" id="c2"><span class="swatch-hex">#9d5cff</span></div>
+      <div class="swatch" style="background:#c084fc" id="c3"><span class="swatch-hex">#c084fc</span></div>
+      <div class="swatch" style="background:#1a1a2e" id="c4"><span class="swatch-hex">#1a1a2e</span></div>
+      <div class="swatch" style="background:#f0f0ff" id="c5"><span class="swatch-hex">#f0f0ff</span></div>
+      <div class="swatch" style="background:#10b981" id="c6"><span class="swatch-hex">#10b981</span></div>
+    </div>
+    <div class="color-edit">
+      <label>Brand Name:</label>
+      <input type="text" id="brandName" value="@YourBrand" oninput="updateBrand()"/>
+      <label>Handle:</label>
+      <input type="text" id="handle" value="@yourbrand" oninput="updateHandles()"/>
+    </div>
+  </div>
+
+  <!-- FEED POSTS -->
+  <div class="kit-section">
+    <div class="kit-section-title">Instagram / LinkedIn Feed Posts</div>
+    <div class="posts-grid">
+
+      <!-- Post 1: Motivational -->
+      <div class="post">
+        <div class="post-square" style="color:#fff">
+          <div class="post-bg" style="background:linear-gradient(145deg,#1a1a2e,#7c3aed)"></div>
+          <div class="post-content">
+            <div class="post-tag" contenteditable="true">Mindset</div>
+            <div class="post-headline" contenteditable="true">Your brand is your most valuable asset. Invest in it daily.</div>
+            <div class="post-sub" contenteditable="true">Three things to do this week to elevate your online presence</div>
+          </div>
+          <div class="post-footer">
+            <div class="post-handle handle-text" contenteditable="true">@YourBrand</div>
+            <div class="post-icon">✦</div>
+          </div>
+        </div>
+        <div class="caption-box">
+          <div class="caption-label">Caption</div>
+          <div class="caption-text" contenteditable="true">Your brand story matters. Whether you're just starting out or scaling fast, the way you show up online determines who notices you. Here are 3 things I do every week → Thread below 🧵</div>
+          <div class="hashtags">
+            <span class="htag">#branding</span><span class="htag">#entrepreneur</span><span class="htag">#smallbusiness</span><span class="htag">#growth</span><span class="htag">#mindset</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 2: Tips -->
+      <div class="post">
+        <div class="post-square" style="color:#fff">
+          <div class="post-bg" style="background:linear-gradient(145deg,#0a1628,#1d4ed8)"></div>
+          <div class="post-content">
+            <div class="post-tag" contenteditable="true">Pro Tip</div>
+            <div class="post-headline" contenteditable="true">5 tools every creator needs in 2026</div>
+            <div class="post-sub" contenteditable="true">Save this before you scroll — you'll want to come back to it</div>
+          </div>
+          <div class="post-footer">
+            <div class="post-handle handle-text" contenteditable="true">@YourBrand</div>
+            <div class="post-icon">💡</div>
+          </div>
+        </div>
+        <div class="caption-box">
+          <div class="caption-label">Caption</div>
+          <div class="caption-text" contenteditable="true">I've tested 50+ tools so you don't have to. These 5 are the ones I actually use every single day to run my business. Drop a 🔖 if you want the full breakdown!</div>
+          <div class="hashtags">
+            <span class="htag">#tools</span><span class="htag">#creator</span><span class="htag">#productivity</span><span class="htag">#business</span><span class="htag">#tech</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 3: Announcement -->
+      <div class="post">
+        <div class="post-square" style="color:#fff">
+          <div class="post-bg" style="background:linear-gradient(145deg,#0f2e1a,#15803d)"></div>
+          <div class="post-content">
+            <div class="post-tag" contenteditable="true">🔥 New Drop</div>
+            <div class="post-headline" contenteditable="true">Something big is coming. Are you ready?</div>
+            <div class="post-sub" contenteditable="true">Link in bio · Limited spots available</div>
+          </div>
+          <div class="post-footer">
+            <div class="post-handle handle-text" contenteditable="true">@YourBrand</div>
+            <div class="post-icon">🚀</div>
+          </div>
+        </div>
+        <div class="caption-box">
+          <div class="caption-label">Caption</div>
+          <div class="caption-text" contenteditable="true">I've been working on this for months and it's finally almost ready. Comment "READY" if you want to be first on the waitlist! 👇</div>
+          <div class="hashtags">
+            <span class="htag">#launch</span><span class="htag">#newproduct</span><span class="htag">#waitlist</span><span class="htag">#excited</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 4: Quote -->
+      <div class="post">
+        <div class="post-square" style="color:#fff">
+          <div class="post-bg" style="background:linear-gradient(145deg,#2a0a1e,#be185d)"></div>
+          <div class="post-content">
+            <div class="post-tag" contenteditable="true">Quote</div>
+            <div class="post-headline" style="font-size:1.6rem;font-style:italic" contenteditable="true">"Don't wait to be discovered. Build something worth discovering."</div>
+          </div>
+          <div class="post-footer">
+            <div class="post-handle handle-text" contenteditable="true">@YourBrand</div>
+            <div class="post-icon">❝</div>
+          </div>
+        </div>
+        <div class="caption-box">
+          <div class="caption-label">Caption</div>
+          <div class="caption-text" contenteditable="true">This one hit different when I first heard it. Save this for the next time you're waiting for permission to go after what you want. You already have it. 🔥</div>
+          <div class="hashtags">
+            <span class="htag">#quote</span><span class="htag">#motivation</span><span class="htag">#inspiration</span><span class="htag">#success</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HIGHLIGHT COVERS -->
+  <div class="kit-section">
+    <div class="kit-section-title">Instagram Highlight Covers</div>
+    <div class="highlights">
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#7c3aed,#c084fc)"></div><div class="hl-icon">🏠</div><div class="hl-name">Home</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#1d4ed8,#60a5fa)"></div><div class="hl-icon">🛍️</div><div class="hl-name">Shop</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#be185d,#f472b6)"></div><div class="hl-icon">❤️</div><div class="hl-name">Faves</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#15803d,#4ade80)"></div><div class="hl-icon">📚</div><div class="hl-name">Tips</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#b45309,#fbbf24)"></div><div class="hl-icon">⭐</div><div class="hl-name">Reviews</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#0891b2,#38bdf8)"></div><div class="hl-icon">📦</div><div class="hl-name">Products</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8)"></div><div class="hl-icon">🎯</div><div class="hl-name">Goals</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#be185d,#7c3aed)"></div><div class="hl-icon">✨</div><div class="hl-name">About</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#0f766e,#10b981)"></div><div class="hl-icon">💰</div><div class="hl-name">Money</div></div>
+      <div class="hl-cover"><div class="hl-bg" style="background:linear-gradient(135deg,#1a1a2e,#7c3aed)"></div><div class="hl-icon">🎬</div><div class="hl-name">Reels</div></div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div class="kit-section">
+    <div class="kit-section-title">Carousel Template (Swipe →)</div>
+    <div class="carousel-strip">
+      <div class="carousel-card" style="color:#fff">
+        <div class="carousel-bg" style="background:linear-gradient(145deg,#1a1a2e,#7c3aed)"></div>
+        <div class="carousel-num">1/5</div>
+        <div class="carousel-content"><div class="carousel-title" contenteditable="true">5 Ways to 10x Your Income This Year</div><div class="carousel-body" contenteditable="true">Swipe to see all 5 →</div></div>
+      </div>
+      <div class="carousel-card" style="color:#fff">
+        <div class="carousel-bg" style="background:linear-gradient(145deg,#2d1b69,#7c3aed)"></div>
+        <div class="carousel-num">2/5</div>
+        <div class="carousel-content"><div class="carousel-title" contenteditable="true">01. Sell digital products</div><div class="carousel-body" contenteditable="true">Create once, sell forever. Zero inventory, 100% margin.</div></div>
+      </div>
+      <div class="carousel-card" style="color:#fff">
+        <div class="carousel-bg" style="background:linear-gradient(145deg,#4c1d95,#7c3aed)"></div>
+        <div class="carousel-num">3/5</div>
+        <div class="carousel-content"><div class="carousel-title" contenteditable="true">02. Offer consulting</div><div class="carousel-body" contenteditable="true">Your expertise is worth $200–$500/hour. Start charging it.</div></div>
+      </div>
+      <div class="carousel-card" style="color:#fff">
+        <div class="carousel-bg" style="background:linear-gradient(145deg,#6d28d9,#9d5cff)"></div>
+        <div class="carousel-num">4/5</div>
+        <div class="carousel-content"><div class="carousel-title" contenteditable="true">03. Build an audience</div><div class="carousel-body" contenteditable="true">An audience of 10K beats a job. Every. Single. Time.</div></div>
+      </div>
+      <div class="carousel-card" style="color:#fff">
+        <div class="carousel-bg" style="background:linear-gradient(145deg,#7c3aed,#c084fc)"></div>
+        <div class="carousel-num">5/5</div>
+        <div class="carousel-content"><div class="carousel-title" contenteditable="true">Follow for more tips →</div><div class="carousel-body" contenteditable="true">Save this & share with someone who needs it 🔖</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function updateBrand(){
+  const v=document.getElementById('brandName').value;
+  document.querySelectorAll('.handle-text').forEach(el=>el.textContent=v);
+}
+function updateHandles(){
+  const v=document.getElementById('handle').value;
+}
+document.querySelectorAll('[contenteditable]').forEach(el=>{
+  el.addEventListener('focus',()=>el.style.outline='2px solid #c084fc');
+  el.addEventListener('blur',()=>el.style.outline='none');
+});
+</script>
+</body>
+</html>
